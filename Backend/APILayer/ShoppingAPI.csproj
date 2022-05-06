@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Providers.ProductProviders\Providers.ProductProviders.csproj" />
+    <ProjectReference Include="..\Services.ProductServiceLayer\Services.ProductServiceLayer.csproj" />
+    <ProjectReference Include="..\ShoppingAPI.Behaviours\ShoppingAPI.Behaviours.csproj" />
+    <ProjectReference Include="..\ShoppingAPI.Helpers\ShoppingAPI.Helpers.csproj" />
+    <ProjectReference Include="..\ShoppingAPI.Types\ShoppingAPI.Types.csproj" />
+  </ItemGroup>
+
+</Project>
