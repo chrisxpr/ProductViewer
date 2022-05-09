@@ -1,0 +1,81 @@
+{
+	"info": {
+		"_postman_id": "6cd6d75b-7371-4b1c-ad68-0173f7661e73",
+		"name": "Endpoint Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Products",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Calculate Shipping",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderItems\": [\r\n        {\r\n            \"productId\": \"32B56D4F-9CE8-4255-B284-E264C59DFA80\",\r\n            \"quantity\": 2\r\n        },\r\n        {\r\n            \"productId\": \"896B60D6-4D2F-4882-B1F5-79378D7D531E\",\r\n            \"quantity\": 2\r\n        }\r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:7166/api/v1.0/order/calculateshipping",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7166",
+					"path": [
+						"api",
+						"v1.0",
+						"order",
+						"calculateshipping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Process Order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderItems\": [\r\n        {\r\n            \"productId\": \"32B56D4F-9CE8-4255-B284-E264C59DFA80\",\r\n            \"quantity\": 2\r\n        },\r\n        {\r\n            \"productId\": \"896B60D6-4D2F-4882-B1F5-79378D7D531E\",\r\n            \"quantity\": 2\r\n        }\r\n    ],\r\n    \"countryCode\": \"IT\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:7166/api/v1.0/order/process",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7166",
+					"path": [
+						"api",
+						"v1.0",
+						"order",
+						"process"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

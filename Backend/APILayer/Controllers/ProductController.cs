@@ -6,7 +6,9 @@ using ShoppingAPI.Types;
 namespace ShoppingAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Produces("application/json")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ProductController : ControllerBase
     {
         private readonly IProductHelper _productHelper;
@@ -16,10 +18,10 @@ namespace ShoppingAPI.Controllers
             _productHelper = productHelper;
         }
 
-        [HttpGet(Name = "GetProductList")]
-        [ProducesResponseType(typeof(IEnumerable<ProductM>), StatusCodes.Status200OK)]
+        [HttpGet()]
+        [ProducesResponseType(typeof(ProductListResponseM), StatusCodes.Status200OK)]
         [AllowAnonymous]
-        public IEnumerable<ProductM> Get()
+        public ProductListResponseM Get()
         {
             return _productHelper.GetProducts();
         }

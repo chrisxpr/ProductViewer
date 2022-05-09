@@ -1,9 +1,14 @@
-import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import { Cart } from './routes/cart';
+import { Complete } from './routes/complete';
+import { Products } from './routes/products';
 
 export default function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Welcome to the shopping client!
-    </h1>
+    <Routes>
+      <Route path="/" element={<Products />} />
+      <Route path="cart" element={<Cart />} />
+      <Route path="complete" element={<Complete />} />
+    </Routes>
   );
 }

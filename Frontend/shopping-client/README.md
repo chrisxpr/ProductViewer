@@ -1,70 +1,234 @@
-# Getting Started with Create React App
+## Front End Application Overview
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The following sections provide guidance to understand the structure of the front end application's main technical features.
 
-## Available Scripts
+### Design System
 
-In the project directory, you can run:
+The shopping client front end application uses tailwind for its design and theme. To view the steps performed to configure the react application with tailwind please visit: [https://tailwindcss.com/docs/guides/create-react-app](https://tailwindcss.com/docs/guides/create-react-app).
 
-### `npm start`
+The main files pertaining to the tailwind setup are:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    /postcss.config.js
+    /tailwind.config.js
+    /src/index.css
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Layout
 
-### `npm test`
+The general layout for the application pages is defined in the file:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    /src/components/layout/main.js
 
-### `npm run build`
+The structure consists of a simple header and footer around the main page content as follows:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    <div>
+      <div className="flex flex-col h-screen">
+        <Header />
+        <main className="flex-grow">
+          <div className="max-w-6xl mx-auto px-4">{props.children}</div>
+        </main>
+        <Footer />
+      </div>
+    </div>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Folder Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The sample app files are grouped in the following structure:
 
-### `npm run eject`
+    /src
+    	/components --> ui components
+    	/helper		--> shared helper functions
+    	/routes		--> ui routes
+    	/services	--> api service wrapper
+    	/store		--> state management
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Configuration
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The following properties are configured in the file shoppingConfig.js:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    export const shoppingConfig = {
+      apiUrl: 'https://localhost:7166/api/v1.0/',
+      siteName: 'Shopping Client',
+      timeout: 20000,
+    };
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The properties **apiUrl** and **timeout** are used to configure api calls, while **siteName** is used in the layout.
 
-## Learn More
+### Routing
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Url routing is provided using the react-router-dom npm package with route behaviour configured in the file App.js:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    <Routes>
+      <Route path="/" element={<Products />} />
+      <Route path="cart" element={<Cart />} />
+      <Route path="complete" element={<Complete />} />
+    </Routes>
 
-### Code Splitting
+and index.js:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    <BrowserRouter>
+      <Layout>
+        <App />
+      </Layout>
+    </BrowserRouter>
 
-### Analyzing the Bundle Size
+### State Management
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+State Management for the application is configured in the following locations:
 
-### Making a Progressive Web App
+    /store
+      /actions
+      /constants
+      /reducers
+      provider.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+**provider.js** configures the Store that is used across all the components as follows:
 
-### Advanced Configuration
+    import { createContext, useReducer } from 'react';
+    import { initialShopState, shopReducer } from './reducers/shopReducer';
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+    export const Store = createContext();
 
-### Deployment
+    export function StoreProvider(props) {
+    const [state, dispatch] = useReducer(shopReducer, initialShopState);
+    const value = { state, dispatch };
+    return <Store.Provider value={value}>{props.children}</Store.Provider>;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+and is referenced in **index.js**:
 
-### `npm run build` fails to minify
+    <React.StrictMode>
+      <StoreProvider>
+        <BrowserRouter>
+          <Layout>
+            <App />
+          </Layout>
+        </BrowserRouter>
+      </StoreProvider>
+    </React.StrictMode>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### API Client
+
+The code responsible for integration with the WebAPI can be found in the folder:
+
+    /services
+
+The file **shoppingClient.js** contains an API service wrapper used by the store actions to interface with the WebAPI controller actions.
+
+    const shoppingClient = (() => {
+      const instance = new ShoppingService();
+      instance.init(shoppingConfig);
+      return instance;
+    })();
+
+The **ApiHelper** class used in the ShoppingService uses the axios package to manage http requests to the WebAPI layer.
+
+## Front End Application Features
+
+To initialise the project and install dependancies you will need to run the command:
+
+    npm run install
+
+To start the react application run the command:
+
+    npm run start
+
+Before starting the front end application make sure that the WebAPI solution is running and the value of **apiUrl** is correct in shoppingConfig.js. The value of **apiUrl** should match up with the value of **applicationUrl** in Properties/launchSettings.json in the ShoppingAPI project.
+
+### Home page
+
+The home page loads a set of products from the WebAPI /product controller endpoint. These are rendered in a grid with the country defaulting to Australia(AU).
+
+<img src="https://dzappstordevmgmtauest.blob.core.windows.net/assets/documentation/product-viewer/Screenshot-1.png" width="600">
+
+This can be changed to Italy(IT) and USA(US) accordingly which will result in the currency code and amounts updating on the screen.
+
+<img src="https://dzappstordevmgmtauest.blob.core.windows.net/assets/documentation/product-viewer/Screenshot-2.png" width="600">
+
+<img src="https://dzappstordevmgmtauest.blob.core.windows.net/assets/documentation/product-viewer/Screenshot-3.png" width="600">
+
+In the demo these mappings are static and configured in
+
+    store/reducers/shopReducer.js
+
+in the **initialShopState** variable:
+
+    countryList: [
+      {
+        countryCode: 'AU',
+        currencyCode: 'AUD',
+        exchangeRate: 1.0,
+      },
+      {
+        countryCode: 'IT',
+        currencyCode: 'EUR',
+        exchangeRate: 0.67,
+      },
+      {
+        countryCode: 'US',
+        currencyCode: 'USD',
+        exchangeRate: 0.7,
+      }
+    ]
+
+with the current selction stored in the **countryInfo** variable:
+
+    countryInfo: {
+      countryCode: 'AU',
+      currencyCode: 'AUD',
+      exchangeRate: 1.0,
+    }
+
+A future version would most likely pull this data from an api to allow use of upto date exchange rate data.
+
+### Adding Products
+
+To add a product simply select the desired quantity from the select control and click 'Buy'
+
+<img src="https://dzappstordevmgmtauest.blob.core.windows.net/assets/documentation/product-viewer/Screenshot-4.png" width="600">
+
+After adding the products the quantity of items in the basket and a link to 'Go to basket' will be visible.
+
+<img src="https://dzappstordevmgmtauest.blob.core.windows.net/assets/documentation/product-viewer/Screenshot-5.png" width="600">
+
+### Shipping Information
+
+On loading the shopping cart page the shipping cost will be retrieved from the WebAPI layer using the [order/calculateshipping] uri.
+
+Where the cart cost is greater than AUD $50 the shipping cost will be $20
+
+<img src="https://dzappstordevmgmtauest.blob.core.windows.net/assets/documentation/product-viewer/Screenshot-6.png" width="600">
+
+If it is less than AUD $50 the shipping cost will be $10
+
+<img src="https://dzappstordevmgmtauest.blob.core.windows.net/assets/documentation/product-viewer/Screenshot-7.png" width="600">
+
+The costs will also be updated based on the selected country:
+
+(IT)
+
+<img src="https://dzappstordevmgmtauest.blob.core.windows.net/assets/documentation/product-viewer/Screenshot-8.png" width="600">
+
+(US)
+
+<img src="https://dzappstordevmgmtauest.blob.core.windows.net/assets/documentation/product-viewer/Screenshot-9.png" width="600">
+
+### Order Submission
+
+Clicking on the 'Place Order' button will submit the cart contents to the [order/process] uri.
+
+<img src="https://dzappstordevmgmtauest.blob.core.windows.net/assets/documentation/product-viewer/Screenshot-10.png" width="600">
+
+On completion of the request the user will be taken to the complete page with the cart state reset.
+
+<img src="https://dzappstordevmgmtauest.blob.core.windows.net/assets/documentation/product-viewer/Screenshot-11.png" width="600">
+
+## Future Enhancements
+
+### Front end
+
+Move country / currency list behind api call
+Implement User Management and security
+
+### Back end
+
+Create physical service layer, persistence, caching, logging
+Implement User Management and security

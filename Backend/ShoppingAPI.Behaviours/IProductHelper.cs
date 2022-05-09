@@ -4,6 +4,8 @@ namespace ShoppingAPI.Behaviours
 {
     public interface IProductHelper
     {
-        List<ProductM> GetProducts();
+        ProductListResponseM GetProducts();
+        double GetProductPrice(string productId);
+        bool IsValidProductId(string id);
     }
 }
