@@ -2,13 +2,15 @@
 
 This sample application is comprised of two parts:
 
-A .Net core 6 Web API solution that provides the back end services and a React front end project that provides the front end user interface.
+- A .Net Core Web API solution that provides the back end services
 
-Details of the Web API application can be found [here](Backend/README.md)
+- A React front end project that provides the front end user interface.
 
-Details of the React application can be found [here](Frontend/shopping-client/README.md)
+For details of the Web API application [click here](Backend/README.md)
+
+For details of the React application [click here](Frontend/shopping-client/README.md)
 
 Prerequisites to run and build the application locally include:
 
-    Visual Studio 2022
-    Visual Studio Code
+- Visual Studio 2022 (.Net solution)
+- Visual Studio Code (React application)

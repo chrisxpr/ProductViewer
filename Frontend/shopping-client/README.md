@@ -223,12 +223,7 @@ On completion of the request the user will be taken to the complete page with th
 
 ## Future Enhancements
 
-### Front end
-
-Move country / currency list behind api call
-Implement User Management and security
-
-### Back end
-
-Create physical service layer, persistence, caching, logging
-Implement User Management and security
+- Move country / currency list behind an api call
+- Use local storage to persist application state
+- Improve API security using PKCE, JWT token etc
+- Increase the code coverage of UI tests
