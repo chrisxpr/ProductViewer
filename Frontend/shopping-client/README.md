@@ -125,13 +125,17 @@ The **ApiHelper** class used in the ShoppingService uses the axios package to ma
 
 To initialise the project and install dependancies you will need to run the command:
 
-    npm run install
+    npm install
 
 To start the react application run the command:
 
     npm run start
 
 Before starting the front end application make sure that the WebAPI solution is running and the value of **apiUrl** is correct in shoppingConfig.js. The value of **apiUrl** should match up with the value of **applicationUrl** in Properties/launchSettings.json in the ShoppingAPI project.
+
+To run the application ui tests run the command:
+
+    npm run test
 
 ### Home page
 

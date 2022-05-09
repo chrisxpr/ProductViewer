@@ -38,7 +38,7 @@ To verify that everything is working as expected open Postman and load the test 
 
     /Backend/Testing/Postman/Endpoint Tests.postman_collection.json
 
-With the collection loaded 3 tests are available to test the 3 endpoints used by the client application:
+With the collection loaded, three tests are available to test the endpoints used by the client application:
 
 | Test               |                        Endpoint                         |
 | ------------------ | :-----------------------------------------------------: |
