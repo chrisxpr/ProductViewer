@@ -12,5 +12,5 @@ For details of the **React** application [click here](Frontend/shopping-client/R
 
 Prerequisites to run and build the application locally include:
 
-- Visual Studio 2022 (.Net solution)
+- Visual Studio 2022 and .NET 6 (.Net solution)
 - Visual Studio Code (React application)
